@@ -38,12 +38,13 @@ export default {
   },
   methods: {
     submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          login(this.form).then(res => {
-            const {data, status} = res
-            console.log(data, status)
+          try {
+            const {data, status} = await login(this.form)
             if (status === 200) {
+              // 保存token值
+              localStorage.setItem('token', data.token)
               this.$message({
                 message: '登陆成功',
                 type: 'success'
@@ -52,7 +53,9 @@ export default {
             } else {
               this.$message.error(data.msg)
             }
-          })
+          } catch (err) {
+            console.log(err)
+          }
         } else {
           console.log('error submit!!')
           return false
