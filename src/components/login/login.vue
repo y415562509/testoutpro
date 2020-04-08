@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import { login } from '@/api/login.js'
 export default {
   data () {
     return {
@@ -38,13 +37,13 @@ export default {
   },
   methods: {
     submitForm (formName) {
+      // const store = this.$store.dispatch()
+      const _this = this
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           try {
-            const {data, status} = await login(this.form)
+            const {data, status} = await _this.$store.dispatch('user/login', this.form)
             if (status === 200) {
-              // 保存token值
-              localStorage.setItem('token', data.token)
               this.$message({
                 message: '登陆成功',
                 type: 'success'
