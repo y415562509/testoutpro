@@ -13,7 +13,12 @@ export default new Router({
     {
       name: 'home',
       path: '/',
-      component: () => import('@/components/home/home.vue')
+      component: () => import('@/components/home/home.vue'),
+      children: [{
+        name: 'users',
+        path: 'users',
+        component: () => import('@/view/users')
+      }]
     }
   ]
 })

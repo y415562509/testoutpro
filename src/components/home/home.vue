@@ -2,70 +2,70 @@
   <div class="home">
     <el-container>
       <el-aside width="200px">
-        <el-menu :unique-opened = "false" :router = "true">
+        <el-menu :default-active="routerIndex" :unique-opened = "false" :router = "true">
           <!-- 第一个 -->
           <el-submenu index="1">
             <template slot="title">
               <svg-icon icon-class="管理系统"></svg-icon>
               <span>用户管理</span>
             </template>
-            <el-menu-item index="1-1">
+            <el-menu-item index="users">
               <svg-icon icon-class="home"></svg-icon>
               <span>用户列表</span>
             </el-menu-item>
           </el-submenu>
           <!-- 第二个 -->
-          <el-submenu index="1">
+          <el-submenu index="2">
             <template slot="title">
               <svg-icon icon-class="管理系统"></svg-icon>
               <span>权限管理</span>
             </template>
-            <el-menu-item index="1-1">
+            <el-menu-item index="2-1">
               <svg-icon icon-class="home"></svg-icon>
               <span>角色列表</span>
             </el-menu-item>
-            <el-menu-item index="1-1">
+            <el-menu-item index="2-2">
               <svg-icon icon-class="home"></svg-icon>
               <span>权限列表</span>
             </el-menu-item>
           </el-submenu>
           <!-- 第三个 -->
-          <el-submenu index="1">
+          <el-submenu index="3">
             <template slot="title">
               <svg-icon icon-class="管理系统"></svg-icon>
               <span>商品管理</span>
             </template>
-            <el-menu-item index="1-1">
+            <el-menu-item index="3-1">
               <svg-icon icon-class="home"></svg-icon>
               <span>商品列表</span>
             </el-menu-item>
-            <el-menu-item index="1-1">
+            <el-menu-item index="3-2">
               <svg-icon icon-class="home"></svg-icon>
               <span>分类参数</span>
             </el-menu-item>
-            <el-menu-item index="1-1">
+            <el-menu-item index="3-3">
               <svg-icon icon-class="home"></svg-icon>
               <span>商品分类</span>
             </el-menu-item>
           </el-submenu>
           <!-- 第四个 -->
-          <el-submenu index="1">
+          <el-submenu index="4">
             <template slot="title">
               <svg-icon icon-class="管理系统"></svg-icon>
               <span>订单管理</span>
             </template>
-            <el-menu-item index="1-1">
+            <el-menu-item index="4-1">
               <svg-icon icon-class="home"></svg-icon>
               <span>订单列表</span>
             </el-menu-item>
           </el-submenu>
           <!-- 第五个 -->
-          <el-submenu index="1">
+          <el-submenu index="5">
             <template slot="title">
               <svg-icon icon-class="管理系统"></svg-icon>
               <span>数据统计</span>
             </template>
-            <el-menu-item index="1-1">
+            <el-menu-item index="5-1">
               <svg-icon icon-class="home"></svg-icon>
               <span>数据报表</span>
             </el-menu-item>
@@ -74,9 +74,11 @@
       </el-aside>
       <el-container>
         <el-header>
-          <el-button>退出登录</el-button>
+          <el-button @click="logout">退出登录</el-button>
         </el-header>
-        <el-main>Main</el-main>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -87,6 +89,21 @@ export default {
   data () {
     return {
 
+    }
+  },
+  computed: {
+    routerIndex () {
+      return this.$route.name
+    }
+  },
+  methods: {
+    logout () {
+      this.$message({
+        message: '退出登录成功',
+        type: 'success'
+      })
+      sessionStorage.removeItem('token')
+      this.$router.push({name: '/login'})
     }
   }
 }
@@ -117,10 +134,7 @@ export default {
   }
 
   .el-main {
-    background-color: #e9eef3;
-    color: #333;
-    text-align: center;
-    line-height: 160px;
+    padding: 0;
   }
 
   .el-container {
